@@ -1912,7 +1912,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
 
 def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
     properties='thermodynamics_%s'%cryst
-    for press in range(len(pressure)):
+    for press in pressure:
         press_bar = 10000*press
         for temp in range(50,int(melting_point)+800,150):
             with open('equil.in', 'w') as f:
@@ -1926,35 +1926,36 @@ def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
                 elif cryst == 'fcc' or cryst == 'hcp':
                     f.write('replicate 15 15 15\n')
                 f.write(minimization() + '\n\n')
-                f.write('\nvariable n_atoms equal "count(all)"\
-                        \nvariable temperature equal "temp"\
-                        \nvariable sys_energy equal "etotal"\
-                        \nvariable sys_enthalpy equal "enthalpy"\
-                        \nvariable pressure equal "press"\
-                        \n variable perAtomE equal v_sys_energy/v_n_atoms\
-                        \nvariable perAtomH equal v_sys_enthalpy/v_n_atoms\
-                        \nvariable volumeEQ equal "vol"\
-                        \nvariable perAtom_volumeEQ equal v_volumeEQ/v_n_atoms\
-                        \nvariable LX_length equal "lx"\
-                        \nvariable LY_length equal "ly"\
-                        \nvariable LZ_length equal "lz"\
-                        \nvariable CA_ratio equal v_LZ_length/v_LX_length\
-                        \nvariable BA_ratio equal v_LY_length/v_LX_length\
-                        \nfix npt_eq all print 1 "${n_atoms} ${temperature}\
-                        ${sys_energy} ${sys_enthalpy} ${pressure} ${perAtomE} ${perAtomH}\
-                        ${volumeEQ} ${perAtom_volumeEQ} ${LX_length}\
-                                    ${LY_length} ${LZ_length} ${CA_ratio} ${BA_ratio}"\
-                                        file equil_npt_TEMP%d_PRESS%d.txt\
-                        \n'%(temp,press))
+                output_variables = ('variable n_atoms equal "count(all)"'
+                        '\nvariable temperature equal "temp" '
+                        '\nvariable sys_energy equal "etotal" '
+                        '\nvariable sys_enthalpy equal "enthalpy"'
+                        '\nvariable pressure equal "press"'
+                        '\nvariable perAtomE equal v_sys_energy/v_n_atoms'
+                        '\nvariable perAtomH equal v_sys_enthalpy/v_n_atoms'
+                        '\nvariable volumeEQ equal "vol"'
+                        '\nvariable perAtom_volumeEQ equal v_volumeEQ/v_n_atoms'
+                        '\nvariable LX_length equal "lx"'
+                        '\nvariable LY_length equal "ly"'
+                        '\nvariable LZ_length equal "lz"'
+                        '\nvariable CA_ratio equal v_LZ_length/v_LX_length'
+                        '\nvariable BA_ratio equal v_LY_length/v_LX_length'
+                        '\nfix npt_eq all print 1 "${n_atoms} ${temperature}'
+                        '${sys_energy} ${sys_enthalpy} ${pressure} ${perAtomE} ${perAtomH}'
+                        '${volumeEQ} ${perAtom_volumeEQ} ${LX_length}'
+                        '${LY_length} ${LZ_length} ${CA_ratio} ${BA_ratio}"'
+                        ' file equil_npt_TEMP%d_PRESS%d.txt'%(temp,press))
+                
+                f.write(output_variables)
                 velocity = 2*temp
                 seed = int.from_bytes(os.urandom(2), byteorder="big") % 100000
-                f.write('\nvelocity all create %d %d mom yes rot no\n'%(velocity,seed))
-                f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1\nunfix 1\n'%(int(temp),int(temp),int(press_bar),int(press_bar)))
-                f.write('\nrun 5000\n')
+                f.write('\nvelocity all create %d %d mom yes rot no'%(velocity,seed))
+                f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1'%(int(temp),int(temp),int(press_bar),int(press_bar)))
+                f.write('\nrun 5000\nunfix 1\n')
                 seed = int.from_bytes(os.urandom(2), byteorder="big") % 100000
-                f.write('\nvelocity all create %d %d mom yes rot no\n'%(velocity,seed))
-                f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1\nunfix 1\n'%(int(temp),int(temp),int(press_bar),int(press_bar)))
-                f.write('\nrun 5000\n')
+                f.write('\nvelocity all create %d %d mom yes rot no'%(velocity,seed))
+                f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1'%(int(temp),int(temp),int(press_bar),int(press_bar)))
+                f.write('\nrun 5000\nunfix 1\n')
             os.system(lammps_run('equil.in'))
             os.system('cp equil.in equil_temp%d_press%d.in'%(temp,press))
             os.system('cp log.lammps log.lammps_temp%d_press%d'%(temp,press))
@@ -2026,7 +2027,7 @@ if os.path.exists("%s"%output):
     
 file = potential_file
 
-pressure = list(np.arange(0, 15.0, 0.5)) # for variable pressure
+pressure = list(np.arange(0, 15.5, 0.5)) # for variable pressure
 # pressure = list(np.arange(0, 0.5, 0.5)) # for single pressure
 thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point)
 
