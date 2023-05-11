@@ -1955,7 +1955,13 @@ def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
                 f.write('\nvelocity all create %d %d mom yes rot no\n'%(velocity,seed))
                 f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1\nunfix 1\n'%(int(temp),int(temp),int(press_bar),int(press_bar)))
                 f.write('\nrun 5000\n')
-                
+            os.system(lammps_run('equil.in'))
+            os.system('cp equil.in equil_temp%d_press%d.in'%(temp,press))
+            os.system('cp log.lammps log.lammps_temp%d_press%d'%(temp,press))
+            os.system('cp dump_lammps dump_lammps_temp%d_press%d'%(temp,press))
+            
+    os.system('mkdir %s'%properties)
+    os.system('mv equil_npt_TEMP* dump_* log.* equil_temp* f %s/'%properties)            
                 
             
      
@@ -2020,8 +2026,8 @@ if os.path.exists("%s"%output):
     
 file = potential_file
 
-# pressure = list(np.arange(0, 10.5, 0.5)) # for variable pressure
-pressure = list(np.arange(0, 0.5, 0.5)) # for single pressure
+pressure = list(np.arange(0, 15.0, 0.5)) # for variable pressure
+# pressure = list(np.arange(0, 0.5, 0.5)) # for single pressure
 thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point)
 
 # elastic_constant(cryst,latparam,type_atom,output) 
