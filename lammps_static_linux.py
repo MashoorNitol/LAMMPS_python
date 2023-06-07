@@ -111,7 +111,7 @@ def vacancy_formation(cryst,latparam,type_atom,output):
         f.write(potential_mod(style,file) + '\n\n')
         f.write(output_mod() + '\n\n')
         f.write(minimization() + '\n\n')
-        f.write('\nreplicate 4 4 4\
+        f.write('\nreplicate 8 8 8\
                 \nrun 0\
                 \nvariable N equal count(all)\
                 \nvariable No equal $N\
@@ -562,7 +562,7 @@ def interstetial_octa_hcp(cryst,latparam,type_atom,output,defect):
     replication = 10
     if cryst == 'hcp':
         lz = np.sqrt(8/3.0)*latparam
-        os.system('atomsk --create hcp %.16f %.16f %s -duplicate 1 1 1 unitcell.lmp'%(latparam,lz,type_atom))
+        os.system('atomsk --create hcp %.6f %.6f %s -duplicate 1 1 1 unitcell.lmp'%(latparam,lz,type_atom))
         for idx, defect in enumerate(interstetial_prop):
             if defect == 'octahedral':
                 coord = [0.5,0.5,0.25]
@@ -628,7 +628,7 @@ def interstetial_tetra_hcp(cryst,latparam,type_atom,output,defect):
     replication = 10
     if cryst == 'hcp':
         lz = np.sqrt(8/3.0)*latparam
-        os.system('atomsk --create hcp %.16f %.16f %s -duplicate 1 1 1 unitcell.lmp'%(latparam,lz,type_atom))
+        os.system('atomsk --create hcp %.6f %.6f %s -duplicate 1 1 1 unitcell.lmp'%(latparam,lz,type_atom))
         for idx, defect in enumerate(interstetial_prop):
             if defect == 'tetrahedral':
                 coord_tet = [0,0,5/8.]
@@ -691,7 +691,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
         for idx, surface in enumerate(surfaces):        
             properties = 'surface_%s_%s'%(cryst,surface)
             if surface == '100':
-                os.system('atomsk --create %s %.16f %s orient [100] [010] [001] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %s orient [100] [010] [001] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data fcc_%s.lmp'%surface+ '\n\n')
@@ -715,7 +715,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '110':
-                os.system('atomsk --create %s %.16f %s orient [112] [11-1] [1-10] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %s orient [112] [11-1] [1-10] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data fcc_%s.lmp'%surface+ '\n\n')
@@ -739,7 +739,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '111':
-                os.system('atomsk --create %s %.16f %s orient [112] [1-10] [11-1] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))                
+                os.system('atomsk --create %s %.6f %s orient [112] [1-10] [11-1] -orthogonal-cell -duplicate 2 2 8 fcc_%s.lmp'%(cryst,latparam,type_atom,surface))                
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data fcc_%s.lmp'%surface+ '\n\n')
@@ -763,7 +763,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '332':
-                os.system('atomsk --create %s %.16f %s orient [-2-26] [1-10] [332] -orthogonal-cell -duplicate 2 2 4  fcc_%s.lmp'%(cryst,latparam,type_atom,surface))  
+                os.system('atomsk --create %s %.6f %s orient [-2-26] [1-10] [332] -orthogonal-cell -duplicate 2 2 4  fcc_%s.lmp'%(cryst,latparam,type_atom,surface))  
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data fcc_%s.lmp'%surface+ '\n\n')
@@ -792,7 +792,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
         for idx, surface in enumerate(surfaces):        
             properties = 'surface_%s_%s'%(cryst,surface)
             if surface == '100':
-                os.system('atomsk --create %s %.16f %s orient [100] [010] [001] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %s orient [100] [010] [001] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data bcc_%s.lmp'%surface+ '\n\n')
@@ -816,7 +816,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '110':
-                os.system('atomsk --create %s %.16f %s orient [111] [-1-12] [1-10] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %s orient [111] [-1-12] [1-10] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data bcc_%s.lmp'%surface+ '\n\n')
@@ -840,7 +840,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '111':
-                os.system('atomsk --create %s %.16f %s orient [-1-12] [1-10] [111] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))                
+                os.system('atomsk --create %s %.6f %s orient [-1-12] [1-10] [111] -orthogonal-cell -duplicate 2 2 8 bcc_%s.lmp'%(cryst,latparam,type_atom,surface))                
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data bcc_%s.lmp'%surface+ '\n\n')
@@ -864,7 +864,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '112':
-                os.system('atomsk --create %s %.16f %s orient [111] [1-10] [-1-12] -orthogonal-cell -duplicate 2 2 8  bcc_%s.lmp'%(cryst,latparam,type_atom,surface))  
+                os.system('atomsk --create %s %.6f %s orient [111] [1-10] [-1-12] -orthogonal-cell -duplicate 2 2 8  bcc_%s.lmp'%(cryst,latparam,type_atom,surface))  
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data bcc_%s.lmp'%surface+ '\n\n')
@@ -890,12 +890,14 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
 
     if cryst == 'hcp':
         lz_latparam = np.sqrt(8/3.)*latparam
+        if type_atom == 'Ti':
+            lz_latparam = np.sqrt(8/3.)*latparam*0.97
         surfaces = ['0001','10m10','1011','1122']
         # surfaces = ['1011']
         for idx, surface in enumerate(surfaces):        
             properties = 'surface_%s_%s'%(cryst,surface)
             if surface == '0001':
-                os.system('atomsk --create %s %.16f %.16f %s orient [1-210] [1-100] [0001] -orthogonal-cell -duplicate 2 2 8 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %.6f %s -orthogonal-cell -duplicate 2 2 8 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data hcp_%s.lmp'%surface+ '\n\n')
@@ -919,7 +921,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '10m10':
-                os.system('atomsk --create %s %.16f %.16f %s orient [1-210] [0001] [10-10] -orthogonal-cell -duplicate 2 2 8 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))
+                os.system('atomsk --create %s %.6f %.6f %s orient [1-210] [0001] [10-10] -orthogonal-cell -duplicate 2 2 8 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data hcp_%s.lmp'%surface+ '\n\n')
@@ -943,7 +945,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '1011':
-                os.system('atomsk --create %s %.16f %.16f %s orient [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 2 1 1 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))                
+                os.system('atomsk --create %s %.6f %.6f %s orient [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 2 1 1 hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))                
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data hcp_%s.lmp'%surface+ '\n\n')
@@ -967,7 +969,7 @@ def freesurfaceenergy(cryst,latparam,type_atom,output):
                 os.system('mkdir %s'%properties)
                 os.system('mv surf.in *.lmp POSCAR dump_lammps log.lammps  %s/'%properties)
             elif surface == '1122':
-                os.system('atomsk --create %s %.16f %.16f %s orient [-1100] [11-23] [11-22] -orthogonal-cell -duplicate 1 1 10  hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))  
+                os.system('atomsk --create %s %.6f %.6f %s orient [-1100] [11-23] [11-22] -orthogonal-cell -duplicate 1 1 10  hcp_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,surface))  
                 with open('surf.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data hcp_%s.lmp'%surface+ '\n\n')
@@ -999,7 +1001,7 @@ def gsfe(cryst,latparam,type_atom,output):
         for idx, direction in enumerate(directions):        
             if direction == '112':
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %s orient  [112] [1-10] [11-1] -orthogonal-cell -duplicate 2 2 16 struct_%s.lmp'%(cryst,latparam,type_atom,direction))
+                os.system('atomsk --create %s %.6f %s orient  [112] [1-10] [11-1] -orthogonal-cell -duplicate 2 2 16 struct_%s.lmp'%(cryst,latparam,type_atom,direction))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%direction+ '\n\n')
@@ -1052,9 +1054,9 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_1.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                    \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                        \ntwin boundary for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                    \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                        \ntwin boundary for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf,type_atom,cryst,plane,direction,y_ssf,type_atom,cryst,plane,direction,y_twin)                   
                 
@@ -1067,7 +1069,7 @@ def gsfe(cryst,latparam,type_atom,output):
             
             elif direction == '110':
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)             
-                os.system('atomsk --create %s %.16f %s orient  [1-10] [112]  [11-1] -orthogonal-cell -duplicate 2 2 16 struct_%s.lmp'%(cryst,latparam,type_atom,direction))
+                os.system('atomsk --create %s %.6f %s orient  [1-10] [112]  [11-1] -orthogonal-cell -duplicate 2 2 16 struct_%s.lmp'%(cryst,latparam,type_atom,direction))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%direction+ '\n\n')
@@ -1120,8 +1122,8 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_2fcc.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                    \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                    \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf2,type_atom,cryst,plane,direction,y_ssf2)                                   
                 if os.path.isfile(filename):
@@ -1132,12 +1134,10 @@ def gsfe(cryst,latparam,type_atom,output):
                         file3.write(new_val)
                         
     if cryst == 'bcc':
-        planes = ['110','112','123']
-        direction = '111'
-        for idx, plane in enumerate(planes):        
-            if plane == '110':
+        
+            if plane == '110' and direction == '111':
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %s orient [111] [-1-12] [1-10] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %s orient [111] [-1-12] [1-10] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1151,10 +1151,19 @@ def gsfe(cryst,latparam,type_atom,output):
                     f.write('\nregion bottomatoms0 block INF INF INF INF -1000000 ${lowdel0} units lattice\n')
                     f.write('\ngroup bottomatoms0 region bottomatoms0\ndelete_atoms group bottomatoms0\n')
                     f.write('\nfix 3 all box/relax x 0.0 y 0.0\nmin_style cg\nminimize 1e-16 1e-16 5000 5000\nunfix 3')
+
+                    f.write('\n\nvariable xmin equal xlo\nvariable xmax equal xhi\nvariable xtot equal v_xmin+v_xmax\n')
+                    f.write('\nvariable ymin equal ylo\nvariable ymax equal yhi\nvariable ytot equal v_ymin+v_ymax')
                     f.write('\nvariable z_middle equal ((zlo+zhi)/2)+2\
                             \nregion lower prism INF INF INF INF ${z_middle} INF 0 0 0 units box\
                             \ngroup lower region lower')
-                    f.write('\nfix 1 lower move linear 20.0 0.0 0.0\nfix 2 all setforce 0.0 NULL NULL\n')
+                    f.write('\nfix 1 lower move linear  ${xtot} 0.0 0.0\nfix 2 all setforce 0.0 0.0 NULL\n')
+
+
+                    # f.write('\nvariable z_middle equal ((zlo+zhi)/2)+2\
+                    #         \nregion lower prism INF INF INF INF ${z_middle} INF 0 0 0 units box\
+                    #         \ngroup lower region lower')
+                    # f.write('\nfix 1 lower move linear 20.0 0.0 0.0\nfix 2 all setforce 0.0 NULL NULL\n')
                     f.write('\nrun XXX \nminimize 1e-8 1e-8 10000 10000 \nunfix 2 \nunfix 1\n')
                     f.write('\nvariable sys_energy equal pe\nvariable sys_energy_J equal v_sys_energy*1.60217733e-19\n')
                     f.write('\nvariable LXO equal "lx*1e-10"\nvariable LYO equal "ly*1e-10"\n')
@@ -1188,7 +1197,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_1bcc.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usfB)                   
                 
@@ -1199,9 +1208,9 @@ def gsfe(cryst,latparam,type_atom,output):
                     with open(filename, 'w') as file3:
                         file3.write(new_val)                         
 
-            elif plane == '112':
+            if plane == '112' and direction == '111':
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %s orient [111]  [1-10] [-1-12] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %s orient [111]  [1-10] [-1-12] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1235,7 +1244,7 @@ def gsfe(cryst,latparam,type_atom,output):
                         file2.write(filedata)
                     os.system(lammps_run('gsfe_%d.in'%i))
                 
-                data2 = np.genfromtxt('gsfe_2.txt')     
+                data2 = np.genfromtxt('gsfe_2bcc.txt')     
                 x_data2 = [i2 for i2 in np.linspace(0,1,len(data2))]
                 y_data2 = [data2[i][1] - data2[0][1] for i in range(len(data2))]
                 y_subset2 = [y2 for x2, y2 in zip(x_data2, y_data2) if 0.3 <= x2 <= 0.6]
@@ -1252,7 +1261,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_2bcc.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf2)                   
                 
@@ -1263,9 +1272,9 @@ def gsfe(cryst,latparam,type_atom,output):
                     with open(filename, 'w') as file3:
                         file3.write(new_val)            
 
-            elif plane == '123':
+            if plane == '123' and direction == '111':
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %s orient [11-1] [-54-1] [123] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %s orient [11-1] [-54-1] [123] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1316,7 +1325,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_3bcc.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf3)                   
                 
@@ -1331,6 +1340,8 @@ def gsfe(cryst,latparam,type_atom,output):
         lz_latparam = np.sqrt(8/3.)*latparam
         if type_atom == 'Zn' or type_atom == 'Cd':
             lz_latparam = np.sqrt(8/3.)*latparam*1.1365632406513948
+        if type_atom == 'Ti':
+            lz_latparam = np.sqrt(8/3.)*latparam*0.971
         planes = ['0001_1120','0001_10-10','10-10-1120','1101-1120','1101-1123','1122-1123']
         # direction = ['1120','10-10','1123']
         for idx, plane in enumerate(planes):        
@@ -1338,7 +1349,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 plane = '0001'
                 direction = '1-210'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient [1-210] [10-10] [0001] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1389,8 +1400,8 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_1hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                    \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                    \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usfhcp, type_atom,cryst,plane,direction,y_ssfhcp)                   
                                 
@@ -1404,7 +1415,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 plane = '0001'
                 direction = '10-10'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient  [10-10] [1-210] [0001] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1421,7 +1432,7 @@ def gsfe(cryst,latparam,type_atom,output):
                     f.write('\nvariable z_middle equal ((zlo+zhi)/2)+2\
                             \nregion lower prism INF INF INF INF ${z_middle} INF 0 0 0 units box\
                             \ngroup lower region lower')
-                    f.write('\nfix 1 lower move linear -20.0 0.0 0.0\nfix 2 all setforce 0.0 NULL NULL\n')
+                    f.write('\nfix 1 lower move linear 0.0 20.0 0.0\nfix 2 all setforce  NULL 0.0 NULL\n')
                     f.write('\nrun XXX \nminimize 1e-8 1e-8 10000 10000 \nunfix 2 \nunfix 1\n')
                     f.write('\nvariable sys_energy equal pe\nvariable sys_energy_J equal v_sys_energy*1.60217733e-19\n')
                     f.write('\nvariable LXO equal "lx*1e-10"\nvariable LYO equal "ly*1e-10"\n')
@@ -1457,9 +1468,9 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_2hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \ntwin energy %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \ntwin energy %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf2,type_atom,cryst,plane,direction,y_ssf2,type_atom,cryst,plane,direction,y_twin2)                   
                                 
@@ -1473,7 +1484,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 plane = '10-10'
                 direction = '1-210'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient  [1-210] [0001]  [10-10] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s orient  [1-210] [0001]  [10-10] -orthogonal-cell -duplicate 1 1 16 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1524,8 +1535,8 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_3hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf3,type_atom,cryst,plane,direction,y_ssf3)                   
                                 
@@ -1539,7 +1550,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 plane = '-1011'
                 direction = '-12-10'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient  [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 2 1 1 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s orient  [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 2 1 1 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1590,15 +1601,15 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_4hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                             \n---------------------------------------------------------------------------\n\
                                 '%(type_atom,cryst,plane,direction,y_usf4,type_atom,cryst,plane,direction,y_ssf4)                   
             elif plane == '1101-1123':
                 plane = '10-11'
                 direction = '-1-123'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient  [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 1 1 1 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s orient  [-12-10] [10-12] [-1011] -orthogonal-cell -duplicate 1 1 1 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1653,9 +1664,9 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_5hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                    \ntwin energy  for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                    \ntwin energy  for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                     \n---------------------------------------------------------------------------\n\
                     '%(type_atom,cryst,plane,direction,y_usf5,type_atom,cryst,plane,direction,y_ssf5,type_atom,cryst,plane,direction,y_twin5)                                
                 if os.path.isfile(filename):
@@ -1668,7 +1679,7 @@ def gsfe(cryst,latparam,type_atom,output):
                 plane = '11-22'
                 direction = '11-23'
                 properties = 'gsfe_%s_%s_%s'%(cryst,plane,direction)
-                os.system('atomsk --create %s %.16f %.16f %s orient [-1100] [11-23] [11-22] -orthogonal-cell -duplicate 1 1 10 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
+                os.system('atomsk --create %s %.6f %.6f %s orient [-1100] [11-23] [11-22] -orthogonal-cell -duplicate 1 1 10 struct_%s.lmp'%(cryst,latparam,lz_latparam,type_atom,plane))
                 with open('gsfe.in', 'w') as f:
                     f.write(lammps_header() + '\n\n')
                     f.write('\nread_data struct_%s.lmp'%plane+ '\n\n')
@@ -1724,9 +1735,9 @@ def gsfe(cryst,latparam,type_atom,output):
                 os.system('mv *.in gsfe_6hcp.txt dump_lammps *.lmp log.lammps gsfe_%s_%s_%s_%s.pdf %s/'%(type_atom,cryst,plane,direction,properties))
                 filename = output
                 new_val = '\n----------------Stacking fault energies ---------------------\n\
-                \nunstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                \nstable stacking fault for %s %s %s plane in %s direction = %0.16f mJ/m^2\
-                    \ntwin energy  for %s %s %s plane in %s direction = %0.16f mJ/m^2\
+                \nunstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                \nstable stacking fault for %s %s %s plane in %s direction = %0.6f mJ/m^2\
+                    \ntwin energy  for %s %s %s plane in %s direction = %0.6f mJ/m^2\
                     \n---------------------------------------------------------------------------\n\
                     '%(type_atom,cryst,plane,direction,y_usf6,type_atom,cryst,plane,direction,y_ssf6,type_atom,cryst,plane,direction,y_twin6)                                
                 if os.path.isfile(filename):
@@ -1745,7 +1756,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
     os.system('rm *.POSCAR *.lmp POSCAR')
     with open('fcc.POSCAR', 'w') as file_fcc:
         lx = latparam
-        file_fcc.write('FCC POSCAR file\n1.0\n%.16f 0 0\n0 %.16f 0\n0 0 %.16f\
+        file_fcc.write('FCC POSCAR file\n1.0\n%.6f 0 0\n0 %.6f 0\n0 0 %.6f\
                        \n%s\n4\nDirect\n0.0 0.0 0.0\n0.5 0.5 0.0\n0.5 0.0 0.5\n0.0 0.5 0.5'\
                            %(lx,lx,lx,type_atom))
     os.system('cp fcc.POSCAR POSCAR')
@@ -1753,7 +1764,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
     file_fcc.close()
     with open('bcc.POSCAR', 'w') as file_bcc:
         lx = latparam
-        file_bcc.write('BCC POSCAR file\n1.0\n%.16f 0 0\n0 %.16f 0\n0 0 %.16f\
+        file_bcc.write('BCC POSCAR file\n1.0\n%.6f 0 0\n0 %.6f 0\n0 0 %.6f\
                         \n%s\n2\nDirect\n0.0 0.0 0.0\n0.5 0.5 0.5'\
                             %(lx,lx,lx,type_atom))        
     os.system('cp bcc.POSCAR POSCAR')
@@ -1764,7 +1775,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         xy =-0.5*lx
         ly = (np.sqrt(3.)/2.)*lx
         lz = (np.sqrt(8./3.))*lx
-        file_hcp.write('HCP POSCAR file\n1.0\n%.16f 0 0\n%.16f %.16f 0\n0 0 %.16f\
+        file_hcp.write('HCP POSCAR file\n1.0\n%.6f 0 0\n%.6f %.6f 0\n0 0 %.6f\
                         \n%s\n2\nDirect\n0.0 0.0 0.0\n0.66666667  0.33333333  0.50'\
                             %(lx,xy,ly,lz,type_atom))
     os.system('cp hcp.POSCAR POSCAR')
@@ -1772,14 +1783,14 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
     file_hcp.close()        
     with open('sc.POSCAR', 'w') as file_sc:
         lx=latparam
-        file_sc.write('simple cubic POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_sc.write('simple cubic POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n1\nDirect\n0.0 0.0 0.0'%(lx,lx,lx,type_atom))
     os.system('cp sc.POSCAR POSCAR')
     os.system('atomsk POSCAR sc.lmp')  
     file_sc.close()         
     with open('dc.POSCAR', 'w') as file_dc: #damond cubic
         lx=latparam
-        file_dc.write('diamond cubic POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_dc.write('diamond cubic POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n8\nDirect\n0.25 0.25 0.25\n0.50 0.00 0.50\
                         \n0.25 0.75 0.75\n0.50 0.50 0.00\n0.75 0.25 0.75\n0.00 0.00 0.00\
                         \n0.75 0.75 0.25\n0.00 0.50 0.50'%(lx,lx,lx,type_atom))
@@ -1788,7 +1799,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
     file_dc.close()                       
     with open('a15.POSCAR', 'w') as file_a15:
         lx=latparam
-        file_a15.write('a15 Sn POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_a15.write('a15 Sn POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n8\nDirect\n0.25 0.0 0.5\n0.75 0.0 0.5\
                         \n0.0 0.5 0.25\n0.0 0.5 0.75\n0.5 0.75 0.0\n0.5 0.25 0.0\
                         \n0.0 0.0 0.0\n0.5 0.5 0.5'%(lx,lx,lx,type_atom))
@@ -1799,7 +1810,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         lx=latparam
         ly=lx
         lz=lx*0.55
-        file_betasn.write('beta Sn POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_betasn.write('beta Sn POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n4\nDirect\n0.0 0.0 0.0\n0.5 0.0 0.25\
                         \n0.5 0.5 0.5\n0.0 0.5 0.75'%(lx,ly,lz,type_atom))
     os.system('cp beta_sn.POSCAR POSCAR')
@@ -1810,7 +1821,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         xy=-0.5*lx 
         ly=(np.sqrt(3.)/2.)*lx
         lz=lx*0.62
-        file_omega.write('omega POSCAR file\n1.0\n%.16f 0 0\n%.16f %.16f 0\n0 0 %.16f\
+        file_omega.write('omega POSCAR file\n1.0\n%.6f 0 0\n%.6f %.6f 0\n0 0 %.6f\
                         \n%s\n3\nDirect\n0.0 0.0 0.0\n0.666667 0.333333 0.5\
                         \n0.333333 0.666667 0.5'%(lx,xy,ly,lz,type_atom))
     os.system('cp omega.POSCAR POSCAR')
@@ -1821,7 +1832,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         xy=-0.5*lx
         ly=(np.sqrt(3.)/2.)*lx
         lz=3.0*lx
-        file_a7.write('a7 POSCAR file\n1.0\n%.16f 0 0\n%.16f %.16f 0\n0 0 %.16f\
+        file_a7.write('a7 POSCAR file\n1.0\n%.6f 0 0\n%.6f %.6f 0\n0 0 %.6f\
                         \n%s\n6\nDirect\n0.0 0.0 0.227320\n0.666667 0.333333 0.106013\
                         \n0.666667 0.333333 0.560653\n0.333333 0.666667 0.439347\
                         \n0.333333 0.666667 0.893987\n0.0 0.0 0.772680'%(lx,xy,ly,lz,type_atom))
@@ -1832,7 +1843,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         lx=latparam
         ly=1.7108347466942362*lx
         lz=1.0137728745950843*lx
-        file_a11.write('a11 POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_a11.write('a11 POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n8\nDirect\n0.5 0.155818 0.581037\n0.5 0.844182 0.418963\
                         \n0.5 0.344182 0.081037\n0.5 0.655818 0.918963\
                         \n0.0 0.655818 0.581037\n0.0 0.344182 0.418963\
@@ -1844,7 +1855,7 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
         lx=latparam
         ly=2.0641907721492485*lx
         lz=1.7480584826470433*lx
-        file_a20.write('a20 POSCAR file\n1.0\n%.16f 0 0\n0.0 %.16f 0\n0 0 %.16f\
+        file_a20.write('a20 POSCAR file\n1.0\n%.6f 0 0\n0.0 %.6f 0\n0 0 %.6f\
                         \n%s\n4\nDirect\n0.0 0.099017 0.75\n0.5 0.400983 0.25\
                         \n0.5 0.599017 0.75\n0.0 0.900983 0.25'%(lx,ly,lz,type_atom))
     os.system('cp a20.POSCAR POSCAR')
@@ -1893,10 +1904,10 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
                 filename = output
                 if os.path.isfile(filename):
                     with open(filename, 'a') as file_check:
-                        file_check.write("The energy difference between %s and %s  = %.16f eV/atom\n"% (type_structure.split('.')[0], lmp_name.split('.')[0], energy_diff))
+                        file_check.write("The energy difference between %s and %s  = %.6f eV/atom\n"% (type_structure.split('.')[0], lmp_name.split('.')[0], energy_diff))
                 else:
                     with open(filename, 'w') as file_check:
-                        file_check.write("The energy difference between %s and %s  = %.16f eV/atom\n"% (type_structure.split('.')[0], lmp_name.split('.')[0], energy_diff))                    
+                        file_check.write("The energy difference between %s and %s  = %.6f eV/atom\n"% (type_structure.split('.')[0], lmp_name.split('.')[0], energy_diff))                    
     if os.path.isfile(filename):
         with open(filename, 'a') as file_check:
             file_check.write("---------------------------------------------------------------------------\n")
@@ -1910,7 +1921,8 @@ def phase_energy_difference(cryst,latparam,type_atom,output):
 
 
 
-def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
+def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point,total_run):
+    half_run = int(total_run/2)
     properties='thermodynamics_%s'%cryst
     for press in pressure:
         press_bar = 10000*press
@@ -1940,22 +1952,22 @@ def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
                         '\nvariable LZ_length equal "lz"'
                         '\nvariable CA_ratio equal v_LZ_length/v_LX_length'
                         '\nvariable BA_ratio equal v_LY_length/v_LX_length'
-                        '\nfix npt_eq all print 1 "${n_atoms} ${temperature}'
-                        '${sys_energy} ${sys_enthalpy} ${pressure} ${perAtomE} ${perAtomH}'
-                        '${volumeEQ} ${perAtom_volumeEQ} ${LX_length}'
+                        '\nfix npt_eq all print 1 "${n_atoms} ${temperature} '
+                        '${sys_energy} ${sys_enthalpy} ${pressure} ${perAtomE} ${perAtomH} '
+                        '${volumeEQ} ${perAtom_volumeEQ} ${LX_length} '
                         '${LY_length} ${LZ_length} ${CA_ratio} ${BA_ratio}"'
-                        ' file equil_npt_TEMP%d_PRESS%d.txt'%(temp,press))
+                        ' file equil_npt_TEMP%d_PRESS%d.txt'%(temp,int(press_bar)))
                 
                 f.write(output_variables)
                 velocity = 2*temp
                 seed = int.from_bytes(os.urandom(2), byteorder="big") % 100000
                 f.write('\nvelocity all create %d %d mom yes rot no'%(velocity,seed))
                 f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1'%(int(temp),int(temp),int(press_bar),int(press_bar)))
-                f.write('\nrun 5000\nunfix 1\n')
+                f.write('\nrun %d\nunfix 1\n'%half_run)
                 seed = int.from_bytes(os.urandom(2), byteorder="big") % 100000
                 f.write('\nvelocity all create %d %d mom yes rot no'%(velocity,seed))
                 f.write('\nfix 1 all npt temp %d %d 1 aniso %d %d 1 drag 1'%(int(temp),int(temp),int(press_bar),int(press_bar)))
-                f.write('\nrun 5000\nunfix 1\n')
+                f.write('\nrun %d\nunfix 1\n'%half_run)
             os.system(lammps_run('equil.in'))
             os.system('cp equil.in equil_temp%d_press%d.in'%(temp,press))
             os.system('cp log.lammps log.lammps_temp%d_press%d'%(temp,press))
@@ -1964,7 +1976,122 @@ def thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point):
     os.system('mkdir %s'%properties)
     os.system('mv equil_npt_TEMP* dump_* log.* equil_temp* f %s/'%properties)            
                 
+
+def find_phase_ranges(temp_enthalpy_pairs):
+    phase_ranges = []
+    incr_list = []
+    prev_enthalpy = temp_enthalpy_pairs[0][1]
+    start_temp = temp_enthalpy_pairs[0][0]
+    end_temp = None
+    for temp, enthalpy in temp_enthalpy_pairs[1:]:
+        incr_list.append(abs(enthalpy - prev_enthalpy))
+        prev_enthalpy = enthalpy
+    preceding_value = None
+    for i in range(1, len(incr_list)):
+        diff = incr_list[i-1]/incr_list[i]
+        if diff > 1.2:
+            preceding_value = incr_list[i]
+    increament = preceding_value
+    for temp, enthalpy in temp_enthalpy_pairs[1:]:
+        if abs(enthalpy - prev_enthalpy) > increament:
+            end_temp = temp
+            phase_ranges.append((start_temp, end_temp))
+            start_temp = end_temp
+        prev_enthalpy = enthalpy
+    phase_ranges.append((start_temp, temp))
+    return phase_ranges
+
+def thermodynamic_prop_analysis(total_run):
+    if total_run < 5000:
+        print("I will not analyze this unconverged files")
+        return
+    else:
+        directory = 'thermodynamics_fcc/'
+        keyword = 'npt'
+        converge_line = total_run-1000
+        output_thermo = []
+        for filename in os.listdir(directory):
+            if keyword in filename:
+                with open(os.path.join(directory, filename), 'r') as f:
+                    next(f)
+                    pressure = []
+                    temp = []
+                    e = []
+                    h = []
+                    vol = []
+                    for i, line in enumerate(f):
+                        if i >= converge_line:
+                            data = line.split()
+                            pressure.append(float(data[4]))
+                            temp.append(float(data[1]))
+                            e.append(float(data[5]))
+                            h.append(float(data[6]))
+                            vol.append(float(data[8]))
+                    index = filename.find("PRESS")
+                    if index != -1:
+                        p_value = float(filename[index + len("PRESS"):].split(".")[0])
+                    output_thermo.append((p_value, np.mean(temp), np.mean(e), np.mean(h), np.mean(vol)))
+        
+        output_thermo.sort()
+        with open('thermo_output_avg.txt', 'w') as f:
+            f.write('# Pressure Temperature Per_Atom_E Per_Atom_H Per_Atom_Volume_EQ\n')
+            for row in output_thermo:
+                f.write('{:.2f} {:.2f} {:.4f} {:.4f} {:.4f}\n'.format(row[0], row[1], row[2], row[3], row[4]))
+                
+        df = pd.read_csv("thermo_output_avg.txt", comment="#", delim_whitespace=True, header=None, names=["Pressure", "Temperature", "Per_Atom_E", "Per_Atom_H", "Per_Atom_Volume_EQ"])
+        pressures = df['Pressure'].unique()
+
+        figenth, axenth = plt.subplots(facecolor='w',edgecolor='k',tight_layout=True)
+        for p in pressures:
+            sub_df = df[df['Pressure'] == p]
+            axenth.plot(sub_df['Temperature'], sub_df['Per_Atom_H'], 'o-', label=f'{p} MPa')
             
+        axenth.set_xlabel(r'Temperature (K)',fontweight='bold')
+        axenth.set_ylabel(r'Per atom H (eV/atom)',fontweight='bold')
+        legend = axenth.legend(loc='upper center', fontsize=16, frameon=True, fancybox=False, edgecolor='k', bbox_to_anchor=(0.5, 1.2), ncol=4)
+        legend.set_title('Pressure', prop={'size': 16, 'weight': 'bold'})
+        figenth.subplots_adjust(top=0.85)
+        figure_width = 10.0
+        figure_height = 10.0
+        figenth.set_size_inches(figure_width, figure_height)
+        # plt.show()
+        figenth.savefig('temp_enthalpy.pdf',bbox_inches='tight')
+        
+        data = {}
+        with open("thermo_output_avg.txt", "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                if line.startswith("#"):
+                    continue
+                pressure, temp,per_atom_e, per_atom_h, per_atom_vol= line.split()
+                if pressure not in data:
+                    data[pressure] = []
+                data[pressure].append((float(temp), float(per_atom_h)))
+
+        with open('thermo_output_extract.txt', 'w') as f:
+            for pressure, temp_enthalpy_pairs in data.items():    
+                f.write(f"Pressure: {pressure}"+"\n")
+                phase_ranges = find_phase_ranges(temp_enthalpy_pairs)
+                prev_end_temp = 0
+                for i, (start_temp, end_temp) in enumerate(phase_ranges):
+                    f.write(f"Phase change {i+1}:"+"\n")
+                    if i == 0:
+                        f.write(f"Temperature range before phase change {i+1}: {prev_end_temp}K to {start_temp}K"+"\n")
+                        range_data = [(t, h) for t, h in temp_enthalpy_pairs if prev_end_temp < t < start_temp]
+                    else:
+                        f.write(f"Temperature range between phase change {i} and {i+1}: {prev_end_temp}K to {start_temp}K"+"\n")
+                        range_data = [(t, h) for t, h in temp_enthalpy_pairs if prev_end_temp <= t < start_temp]
+                    if range_data:
+                        temps, enthalpies = zip(*range_data)
+                        f.write(f"Temperature values: {temps}"+"\n")
+                        f.write(f"Enthalpy values: {enthalpies}"+"\n")
+                    f.write(f"Temperature range after phase change {i}: {start_temp}K to {end_temp}K"+"\n")
+                    range_data = [(t, h) for t, h in temp_enthalpy_pairs if start_temp <= t <= end_temp]
+                    temps, enthalpies = zip(*range_data)
+                    f.write(f"Temperature values: {temps}"+"\n")
+                    f.write(f"Enthalpy values: {enthalpies}"+"\n")
+                    prev_end_temp = end_temp
+             
      
             
 """
@@ -1994,43 +2121,42 @@ A few notes to user:
 lammps_executable = './lmp_serial'
 
 
-target_element = 'Al'
-potential_type = 'eam'
+# target_element = 'Nb'
+# #potential_type = 'eam'
 # potential_type = 'meam'
 # style='meam'
-style = 'eam/alloy'
-# potential_file = 'MgAlZn.library.meam Mg Al Zn MgAlZn.parameter.meam Mg'
-potential_file = 'al-cu-set.eam.alloy Al'
+# #style = 'eam/alloy'
+# potential_file = 'Nb.library_1.64 Nb Nb.parameter_1.64 Nb'
+# potential_file = 'al-cu-set.eam.alloy Al'
 # potential_file = 'library.meam V V.meam V'
 ###############################################################################
 
-with open('element_properties.data', 'r') as f:
-    for line in f:
-        if line.startswith(target_element):
-            properties = line.split()
-            ground_state = properties[1].lower()
-            lattice_parameter = float(properties[5])
-            melting_point = float(properties[4])
-            # print(f"Ground state: {ground_state}, Lattice parameter: {lattice_parameter}, Melting point: {melting_point} K")
-            break  # exit loop once the element is found
+# with open('element_properties.data', 'r') as f:
+#     for line in f:
+#         if line.startswith(target_element):
+#             properties = line.split()
+#             ground_state = properties[1].lower()
+#             lattice_parameter = float(properties[5])
+#             melting_point = float(properties[4])
+#             # print(f"Ground state: {ground_state}, Lattice parameter: {lattice_parameter}, Melting point: {melting_point} K")
+#             break  # exit loop once the element is found
+# 
 
 
-
-latparam = lattice_parameter
-cryst = ground_state
-type_atom = target_element
+# latparam = 3.3
+# cryst = 'bcc'
+# type_atom = 'Nb'
 
    
-output = 'results_%s_%s_%s.dat'%(potential_type,cryst,type_atom)
-if os.path.exists("%s"%output):
-    os.remove("%s"%output)    
+# output = 'results_%s_%s_%s.dat'%(potential_type,cryst,type_atom)
+# if os.path.exists("%s"%output):
+#     os.remove("%s"%output)    
     
-file = potential_file
+# file = potential_file
 
-pressure = list(np.arange(0, 15.5, 0.5)) # for variable pressure
-# pressure = list(np.arange(0, 0.5, 0.5)) # for single pressure
-thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point)
 
+
+## Molecular static calculations:
 # elastic_constant(cryst,latparam,type_atom,output) 
 # cold_curve(cryst,latparam,type_atom,output)
 # vacancy_formation(cryst,type_atom,latparam,output)
@@ -2041,6 +2167,16 @@ thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point)
 # interstetial_tetra_fcc(cryst,latparam,type_atom,output,defect)
 # freesurfaceenergy(cryst,latparam,type_atom,output)
 # gsfe(cryst,latparam,type_atom,output)
+
+
+## Molecular dyamic calculations:
+# run at least 5000 run in LAMMPS please!    
+#total_run=10000
+#pressure = list(np.arange(0, 15.5, 0.5)) # for variable pressure
+# pressure = list(np.arange(0, 0.5, 0.5)) # for single pressure
+# thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point,total_run)
+#thermodynamic_prop_analysis(total_run)
+
 
 # # Calculate properties of a FCC strucuture #
 # latparam=4.045
@@ -2067,28 +2203,32 @@ thermodynamic_props(cryst,latparam,type_atom,output,pressure,melting_point)
 #     os.remove("%s"%output)
 
 # # Calculate properties of a HCP strucuture #
-# latparam=3.2
-# cryst='hcp'
-# style='meam'
-# type_atom='Mg'
+latparam=3.2
+cryst='hcp'
+style='meam'
+type_atom='Zr'
 
-# file = 'MgAlZn.library.meam Mg Al Zn MgAlZn.parameter.meam Mg'
+# potential_type = 'eam'
+potential_type = 'meam'
+style='meam'
+# style = 'eam/alloy'
 
-# print(file)
-# output = 'results_%s_%s_%s.dat'%(style,cryst,type_atom)
-# if os.path.exists("%s"%output):
-#     os.remove("%s"%output)
+file = 'Zr.library_27.44 Zr Zr.parameter_27.44 Zr'
+# file = 'Zr_3.eam.fs Zr'
 
-
-# elastic_constant(cryst,latparam,type_atom,output) 
-# cold_curve(cryst,latparam,type_atom,output)
-# vacancy_formation(cryst,type_atom,latparam,output)
-# defect='octahedral'
-# interstetial_octa_hcp(cryst,latparam,type_atom,output,defect)
-# defect='tetrahedral'
-# interstetial_tetra_hcp(cryst,latparam,type_atom,output,defect)
-# freesurfaceenergy(cryst,latparam,type_atom,output)
-# gsfe(cryst,latparam,type_atom,output)
-# phase_energy_difference(cryst,latparam,type_atom,output)
+print(file)
+output = 'results_%s_%s_%s.dat'%(potential_type,cryst,type_atom)
+if os.path.exists("%s"%output):
+    os.remove("%s"%output)
 
 
+#elastic_constant(cryst,latparam,type_atom,output) 
+cold_curve(cryst,latparam,type_atom,output)
+#vacancy_formation(cryst,type_atom,latparam,output)
+#defect='octahedral'
+#interstetial_octa_hcp(cryst,latparam,type_atom,output,defect)
+#defect='tetrahedral'
+#interstetial_tetra_hcp(cryst,latparam,type_atom,output,defect)
+#freesurfaceenergy(cryst,latparam,type_atom,output)
+gsfe(cryst,latparam,type_atom,output)
+#phase_energy_difference(cryst,latparam,type_atom,output)
